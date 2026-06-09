@@ -11,29 +11,16 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "atendimentos")
+@Table(name = "exame_lab")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Atendimento {
+public class ExameLab {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Data é obrigatória")
-    private LocalDate data;
-
-    private LocalTime hora;
-
-    private String problema_texto;
-
-    @ElementCollection
-    @CollectionTable(name = "receita_saude")
-    private String[] receita_saude;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exameLab_id")
-    private ExameLab exameLab;
+    private String descricao;
 
 }

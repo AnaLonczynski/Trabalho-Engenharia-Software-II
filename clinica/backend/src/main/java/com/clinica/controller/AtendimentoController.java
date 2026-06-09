@@ -22,7 +22,7 @@ public class AtendimentoController {
 
     // CREATE - Criar novo Atendimento
     @PostMapping
-    public ResponseEntity<Atendimento> criar(@Valid @RequestBody Atendimento atendimento) {
+    public ResponseEntity<Atendimento> inserir(@Valid @RequestBody Atendimento atendimento) {
         Atendimento salvo = repository.save(atendimento);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
@@ -43,17 +43,23 @@ public class AtendimentoController {
                         .body(null));
     }
 
+    // READ - Buscar Atendimento por receita_saude
+    @GetMapping("/receita/{receita}")
+    public ResponseEntity<List<Atendimento>> buscarPorReceita(@PathVariable String receita) {
+        List<Atendimento> atendimentos = repository.findByReceitaSaudeContainingIgnoreCase(receita);
+        return ResponseEntity.ok(atendimentos);
+    }
+
     // UPDATE - Atualizar Atendimento
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id,
                                        @Valid @RequestBody Atendimento dados) {
         return repository.findById(id)
                 .map(comp -> {
-                    comp.setTitulo(dados.getTitulo());
                     comp.setData(dados.getData());
-                    comp.setHora(dados.getHora());
-                    comp.setDescricao(dados.getDescricao());
-                    comp.setContato(dados.getContato());
+                    comp.setHorario(dados.getHorario());
+                    comp.setProblema_Texto(dados.getProblema_Texto());
+                    comp.setReceitaSaude(dados.getReceitaSaude());
                     return ResponseEntity.ok(repository.save(comp));
                 })
                 .orElse(ResponseEntity.notFound().build());
