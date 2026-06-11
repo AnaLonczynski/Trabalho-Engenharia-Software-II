@@ -12,28 +12,30 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "atendimentos")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Atendimento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Data é obrigatória")
     private LocalDate data;
 
-    private LocalTime hora;
+    private LocalTime horario;
 
+    @Column(length = 1000)
     private String problema_texto;
 
-    @ElementCollection
-    @CollectionTable(name = "receita_saude")
-    private String[] receita_saude;
+    @Enumerated(EnumType.STRING)
+    private ReceitaSaude receitaSaude;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exameLab_id")
-    private ExameLab exameLab;
+    @ManyToOne
+    @JoinColumn(name = "profissional_id")
+    private ProfissionalDeSaude profissionalDeSaude;
+
+    public enum ReceitaSaude {
+        REMEDIO,
+        ATIVIDADE_FISICA,
+        ATIVIDADE_MENTAL,
+    }
 
 }

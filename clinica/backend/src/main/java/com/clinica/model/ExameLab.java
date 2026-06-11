@@ -23,4 +23,7 @@ public class ExameLab {
 
     private String descricao;
 
+    @ManyToOne
+    @JoinColumn(name = "atendimento_id")
+    private Atendimento atendimento;
 }
