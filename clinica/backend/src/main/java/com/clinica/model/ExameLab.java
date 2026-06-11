@@ -26,4 +26,29 @@ public class ExameLab {
     @ManyToOne
     @JoinColumn(name = "atendimento_id")
     private Atendimento atendimento;
+
+
+    public int getId() {
+        return id.intValue();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Atendimento getAtendimento() {
+        return atendimento;
+    }
+
+    public void setAtendimento(Atendimento atendimento) {
+        this.atendimento = atendimento;
+    }
 }
