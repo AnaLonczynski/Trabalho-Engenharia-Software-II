@@ -1,43 +1,31 @@
-package com.profissionaldesaude.model;
+package com.clinica.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "profissionaldeSaude")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ProfissionaldeSaude {
+@Table(name = "profissional_de_saude")
+public class ProfissionalDeSaude {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data;
+    private String nome;
 
-    private LocalTime horario;
+    private String telefone;
 
-    private String problemaTexto;
+    private String endereco;
 
     @Enumerated(EnumType.STRING)
-    private ReceitaSaude receitaSaude;
+    private Categoria categoria;
 
-    //@ManyToOne
-    //@JoinColumn(name = "profissional_id")
-   // private ProfissionalDeSaude profissionalDeSaude;
-
-    public enum ReceitaSaude {
-        REMEDIO,
-        ATIVIDADE_FISICA,
-        ATIVIDADE_MENTAL,
+    public enum Categoria {
+        PSICOLOGO,
+        FISIOTERAPEUTA,
+        MEDICO
     }
 
-
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -46,45 +34,35 @@ public class ProfissionaldeSaude {
         this.id = id;
     }
 
-    public LocalDate getData() {
-        return data;
+    public String getNome() {
+        return nome;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public LocalTime getHorario() {
-        return horario;
-    }  
-
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
-    }   
-
-    public String getProblemaTexto() {
-        return problemaTexto;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setProblemaTexto(String problemaTexto) {
-        this.problemaTexto = problemaTexto;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
-    public ReceitaSaude getReceitaSaude() {
-        return receitaSaude;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setReceitaSaude(ReceitaSaude receitaSaude) {
-        this.receitaSaude = receitaSaude;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    /* 
-    public ProfissionalDeSaude getProfissionalDeSaude() {
-        return profissionalDeSaude;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setProfissionalDeSaude(ProfissionalDeSaude profissionalDeSaude) {
-        this.profissionalDeSaude = profissionalDeSaude;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
-    */
 }
