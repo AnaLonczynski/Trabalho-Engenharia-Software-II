@@ -1,4 +1,4 @@
-package com.agenda.model;
+package com.profissionaldesaude.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -11,11 +11,11 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "atendimentos")
+@Table(name = "profissionaldeSaude")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Atendimento {
+public class ProfissionaldeSaude {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

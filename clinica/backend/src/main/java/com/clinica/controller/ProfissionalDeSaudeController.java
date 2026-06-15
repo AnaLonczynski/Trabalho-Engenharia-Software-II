@@ -1,7 +1,7 @@
 package com.agenda.controller;
 
-import com.agenda.model.Atendimento;
-import com.agenda.repository.AtendimentoRepository;
+import com.agenda.model.profissionaldeSaude;
+import com.agenda.repository.profissionaldeSaudeRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,31 +10,31 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/atendimentos")
+@RequestMapping("/api/profissionaldeSaudes")
 @CrossOrigin(origins = "*")
-public class AtendimentoController {
+public class ProfissionalDeSaudeController {
 
-    private final AtendimentoRepository repository;
+    private final ProfissonalDeSaudeRepository repository;
 
-    public AtendimentoController(AtendimentoRepository repository) {
+    public ProfissionalDeSaudeController(profissionaldeSaudeRepository repository) {
         this.repository = repository;
     }
 
-    // CREATE - Criar novo Atendimento
+    // CREATE - Criar novo profissionaldeSaude
     @PostMapping
-    public ResponseEntity<Atendimento> criar(@Valid @RequestBody Atendimento atendimento) {
-        Atendimento salvo = repository.save(atendimento);
+    public ResponseEntity<profissionaldeSaude> criar(@Valid @RequestBody ProfissionaldeSaude ProfissionaldeSaude) {
+        profissionaldeSaude salvo = repository.save(profissionaldeSaude);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
-    // READ - Listar todos os Atendimentos
+    // READ - Listar todos os profissionaldeSaudes
     @GetMapping
-    public ResponseEntity<List<Atendimento>> listar() {
-        List<Atendimento> atendimentos = repository.findAllByOrderByDataAscHoraAsc();
-        return ResponseEntity.ok(atendimentos);
+    public ResponseEntity<List<profissionaldeSaude>> listar() {
+        List<profissionaldeSaude> profissionaldeSaudes = repository.findAllByOrderByDataAscHoraAsc();
+        return ResponseEntity.ok(profissionaldeSaudes);
     }
 
-    // READ - Buscar Atendimento por ID
+    // READ - Buscar profissionaldeSaude por ID
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable Long id) {
         return repository.findById(id)
@@ -43,10 +43,10 @@ public class AtendimentoController {
                         .body(null));
     }
 
-    // UPDATE - Atualizar Atendimento
+    // UPDATE - Atualizar profissionaldeSaude
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id,
-                                       @Valid @RequestBody Atendimento dados) {
+                                       @Valid @RequestBody profissionaldeSaude dados) {
         return repository.findById(id)
                 .map(comp -> {
                     comp.setTitulo(dados.getTitulo());
@@ -59,13 +59,13 @@ public class AtendimentoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE - Remover Atendimento
+    // DELETE - Remover profissionaldeSaude
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable Long id) {
         return repository.findById(id)
                 .map(comp -> {
                     repository.delete(comp);
-                    return ResponseEntity.ok(Map.of("mensagem", "Atendimento removido com sucesso"));
+                    return ResponseEntity.ok(Map.of("mensagem", "profissionaldeSaude removido com sucesso"));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
