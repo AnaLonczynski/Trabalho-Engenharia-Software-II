@@ -1,11 +1,8 @@
-package com.agenda.model;
+package com.clinica.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
@@ -22,15 +19,14 @@ public class Atendimento {
 
     private LocalTime horario;
 
-    @Column(length = 1000)
-    private String problema_texto;
+    private String problemaTexto;
 
     @Enumerated(EnumType.STRING)
     private ReceitaSaude receitaSaude;
 
-    @ManyToOne
-    @JoinColumn(name = "profissional_id")
-    private ProfissionalDeSaude profissionalDeSaude;
+    //@ManyToOne
+    //@JoinColumn(name = "profissional_id")
+   // private ProfissionalDeSaude profissionalDeSaude;
 
     public enum ReceitaSaude {
         REMEDIO,
@@ -39,8 +35,8 @@ public class Atendimento {
     }
 
 
-    public int getId() {
-        return id.intValue();
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -63,12 +59,12 @@ public class Atendimento {
         this.horario = horario;
     }   
 
-    public String getProblema_Texto() {
-        return problema_texto;
+    public String getProblemaTexto() {
+        return problemaTexto;
     }
 
-    public void setProblema_Texto(String problema_texto) {
-        this.problema_texto = problema_texto;
+    public void setProblemaTexto(String problemaTexto) {
+        this.problemaTexto = problemaTexto;
     }
 
     public ReceitaSaude getReceitaSaude() {
@@ -79,6 +75,7 @@ public class Atendimento {
         this.receitaSaude = receitaSaude;
     }
 
+    /* 
     public ProfissionalDeSaude getProfissionalDeSaude() {
         return profissionalDeSaude;
     }
@@ -86,5 +83,5 @@ public class Atendimento {
     public void setProfissionalDeSaude(ProfissionalDeSaude profissionalDeSaude) {
         this.profissionalDeSaude = profissionalDeSaude;
     }
-
+    */
 }

@@ -1,0 +1,7 @@
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/ClinicaApplication.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/controller/AtendimentoController.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/controller/ExameLabController.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/model/Atendimento.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/model/ExameLab.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/repository/AtendimentoRepository.java
+/home/rayssamels/Documentos/Trabalho-Engenharia-Software-II/clinica/backend/src/main/java/com/clinica/repository/ExameLabRepository.java

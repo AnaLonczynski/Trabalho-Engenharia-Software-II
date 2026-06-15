@@ -1,7 +1,7 @@
-package com.agenda.controller;
+package com.clinica.controller;
 
-import com.agenda.model.ExameLab;
-import com.agenda.repository.ExameLabRepository;
+import com.clinica.model.ExameLab;
+import com.clinica.repository.ExameLabRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/exame_lab")
 @CrossOrigin(origins = "*")
@@ -30,7 +31,7 @@ public class ExameLabController {
     // READ - Listar todos os exameLabs
     @GetMapping
     public ResponseEntity<List<ExameLab>> listar() {
-        List<ExameLab> exameLabs = repository.findAllByOrderByNomeAsc();
+        List<ExameLab> exameLabs = repository.findAllByOrderByDescricaoAsc();
         return ResponseEntity.ok(exameLabs);
     }
 
@@ -49,10 +50,8 @@ public class ExameLabController {
                                        @Valid @RequestBody ExameLab dados) {
         return repository.findById(id)
                 .map(exameLab -> {
-                    exameLab.setNome(dados.getNome());
-                    exameLab.setTelefone(dados.getTelefone());
-                    exameLab.setEmail(dados.getEmail());
-                    exameLab.setEndereco(dados.getEndereco());
+                    exameLab.setDescricao(dados.getDescricao());
+                    exameLab.setAtendimento(dados.getAtendimento());
                     return ResponseEntity.ok(repository.save(exameLab));
                 })
                 .orElse(ResponseEntity.notFound().build());

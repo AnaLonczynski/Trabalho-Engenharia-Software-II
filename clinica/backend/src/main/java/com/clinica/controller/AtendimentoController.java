@@ -1,7 +1,7 @@
-package com.agenda.controller;
+package com.clinica.controller;
 
-import com.agenda.model.Atendimento;
-import com.agenda.repository.AtendimentoRepository;
+import com.clinica.model.Atendimento;
+import com.clinica.repository.AtendimentoRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/atendimentos")
 @CrossOrigin(origins = "*")
@@ -30,7 +31,7 @@ public class AtendimentoController {
     // READ - Listar todos os Atendimentos
     @GetMapping
     public ResponseEntity<List<Atendimento>> listar() {
-        List<Atendimento> atendimentos = repository.findAllByOrderByDataAscHoraAsc();
+        List<Atendimento> atendimentos = repository.findAllByOrderByDataAscHorarioAsc();
         return ResponseEntity.ok(atendimentos);
     }
 
@@ -45,9 +46,11 @@ public class AtendimentoController {
 
     // READ - Buscar Atendimento por receita_saude
     @GetMapping("/receita/{receita}")
-    public ResponseEntity<List<Atendimento>> buscarPorReceita(@PathVariable String receita) {
-        List<Atendimento> atendimentos = repository.findByReceitaSaudeContainingIgnoreCase(receita);
-        return ResponseEntity.ok(atendimentos);
+    public ResponseEntity<List<Atendimento>> buscarPorReceita(
+        @PathVariable Atendimento.ReceitaSaude receita) {
+            return ResponseEntity.ok(
+                    repository.findByReceitaSaude(receita)
+        );
     }
 
     // UPDATE - Atualizar Atendimento
@@ -58,7 +61,7 @@ public class AtendimentoController {
                 .map(comp -> {
                     comp.setData(dados.getData());
                     comp.setHorario(dados.getHorario());
-                    comp.setProblema_Texto(dados.getProblema_Texto());
+                    comp.setProblemaTexto(dados.getProblemaTexto());
                     comp.setReceitaSaude(dados.getReceitaSaude());
                     return ResponseEntity.ok(repository.save(comp));
                 })

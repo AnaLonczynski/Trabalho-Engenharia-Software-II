@@ -1,3 +1,5 @@
+package com.clinica.repository;
+
 import com.clinica.model.Atendimento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -6,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> {
-    List<Atendimento> findAllByOrderByDataAscHoraAsc() ;
+    List<Atendimento> findAllByOrderByDataAscHorarioAsc();
 
-    List<Atendimento> findByReceitaSaudeContainingIgnoreCase(String receita) ;
+    List<Atendimento> findByReceitaSaude(Atendimento.ReceitaSaude receitaSaude);
 
 }
 
