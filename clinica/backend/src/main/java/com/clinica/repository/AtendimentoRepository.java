@@ -13,4 +13,3 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
     List<Atendimento> findByReceitaSaude(Atendimento.ReceitaSaude receitaSaude);
 
 }
-
