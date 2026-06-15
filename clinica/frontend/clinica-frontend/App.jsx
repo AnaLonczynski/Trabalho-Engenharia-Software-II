@@ -1,1 +1,1 @@
-export { default } from './src/files/saude-app'
+export { default } from 'clinica_app'
