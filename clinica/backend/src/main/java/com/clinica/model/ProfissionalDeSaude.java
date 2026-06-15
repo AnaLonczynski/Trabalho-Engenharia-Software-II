@@ -3,9 +3,6 @@ package com.profissionaldesaude.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
@@ -21,22 +18,73 @@ public class ProfissionaldeSaude {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Título é obrigatório")
-    @Column(length = 200, nullable = false)
-    private String titulo;
-
-    @NotNull(message = "Data é obrigatória")
     private LocalDate data;
 
-    private LocalTime hora;
+    private LocalTime horario;
 
-    @Column(columnDefinition = "TEXT")
-    private String descricao;
+    private String problemaTexto;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "contato_id")
-    private Contato contato;
+    @Enumerated(EnumType.STRING)
+    private ReceitaSaude receitaSaude;
 
-    @Column(name = "criado_em")
-    private LocalDateTime criadoEm = LocalDateTime.now();
+    //@ManyToOne
+    //@JoinColumn(name = "profissional_id")
+   // private ProfissionalDeSaude profissionalDeSaude;
+
+    public enum ReceitaSaude {
+        REMEDIO,
+        ATIVIDADE_FISICA,
+        ATIVIDADE_MENTAL,
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public LocalTime getHorario() {
+        return horario;
+    }  
+
+    public void setHorario(LocalTime horario) {
+        this.horario = horario;
+    }   
+
+    public String getProblemaTexto() {
+        return problemaTexto;
+    }
+
+    public void setProblemaTexto(String problemaTexto) {
+        this.problemaTexto = problemaTexto;
+    }
+
+    public ReceitaSaude getReceitaSaude() {
+        return receitaSaude;
+    }
+
+    public void setReceitaSaude(ReceitaSaude receitaSaude) {
+        this.receitaSaude = receitaSaude;
+    }
+
+    /* 
+    public ProfissionalDeSaude getProfissionalDeSaude() {
+        return profissionalDeSaude;
+    }
+
+    public void setProfissionalDeSaude(ProfissionalDeSaude profissionalDeSaude) {
+        this.profissionalDeSaude = profissionalDeSaude;
+    }
+    */
 }
