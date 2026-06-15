@@ -1,0 +1,8 @@
+com/clinica/repository/ExameLabRepository.class
+com/clinica/model/ExameLab.class
+com/clinica/controller/AtendimentoController.class
+com/clinica/model/Atendimento.class
+com/clinica/controller/ExameLabController.class
+com/clinica/repository/AtendimentoRepository.class
+com/clinica/model/Atendimento$ReceitaSaude.class
+com/clinica/ClinicaApplication.class
