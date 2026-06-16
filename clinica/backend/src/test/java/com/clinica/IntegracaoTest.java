@@ -87,7 +87,7 @@ class IntegracaoTest {
                 "problemaTexto": "Dores na lombar",
                 "data": "2026-06-20",
                 "horario": "10:00",
-                "profissional": {"id": %d}
+                "profissionalDeSaude": {"id": %d}
             }
             """, profId);
 
