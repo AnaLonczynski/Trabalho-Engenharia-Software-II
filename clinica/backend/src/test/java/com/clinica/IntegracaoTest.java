@@ -1,6 +1,5 @@
 package com.clinica;
 
-import com.clinica.model.Atendimento;
 import com.clinica.model.ProfissionalDeSaude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -14,15 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-/**
- * TESTES DE INTEGRAÇÃO
- */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -41,60 +34,54 @@ class IntegracaoTest {
 
     @Test
     void deveExecutarFluxoCompletoProfissional() throws Exception {
-        // 1. CRIAR profissional
         ProfissionalDeSaude profissional = new ProfissionalDeSaude();
         profissional.setNome("Carlos Machado");
         profissional.setTelefone("31998547564");
         profissional.setCategoria("MEDICO");
         profissional.setEndereco("Rua Dom Cabral, 21");
 
-        MvcResult result = mockMvc.perform(post("/api/profissionais")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/profissional_de_saude")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(profissional)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.nome").value("Carlos Machado"))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").value("Carlos Machado"))
                 .andReturn();
 
         Long id = objectMapper.readTree(result.getResponse().getContentAsString())
                 .get("id").asLong();
 
-        // 2. BUSCAR profissional criado
-        mockMvc.perform(get("/api/profissionais/" + id))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.categoria").value("MEDICO"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/profissional_de_saude/" + id))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.categoria").value("MEDICO"));
 
-        // 3. ATUALIZAR profissional
         profissional.setNome("Carlos Machado Silva");
         profissional.setTelefone("31900000000");
 
-        mockMvc.perform(put("/api/profissionais/" + id)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/profissional_de_saude/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(profissional)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nome").value("Carlos Machado Silva"));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").value("Carlos Machado Silva"));
 
-        // 4. DELETAR profissional
-        mockMvc.perform(delete("/api/profissionais/" + id))
-                .andExpect(status().isOk()); 
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/profissional_de_saude/" + id))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     void deveVincularAtendimentoAProfissional() throws Exception {
-        // Criar profissional
         ProfissionalDeSaude profissional = new ProfissionalDeSaude();
         profissional.setNome("Maria Rodrigues");
         profissional.setCategoria("FISIOTERAPEUTA");
 
-        MvcResult profResult = mockMvc.perform(post("/api/profissionais")
+        MvcResult profResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/profissional_de_saude")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(profissional)))
-                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
 
         Long profId = objectMapper.readTree(
                 profResult.getResponse().getContentAsString()).get("id").asLong();
 
-        // Criar atendimento vinculado
         String atendJson = String.format("""
             {
                 "problemaTexto": "Dores na lombar",
@@ -104,10 +91,10 @@ class IntegracaoTest {
             }
             """, profId);
 
-        mockMvc.perform(post("/api/atendimentos")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/atendimentos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(atendJson))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.problemaTexto").value("Dores na lombar"));
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.problemaTexto").value("Dores na lombar"));
     }
 }
