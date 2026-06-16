@@ -44,68 +44,107 @@ function Modal({ title, subtitle, onClose, children }) {
 function ProfCard({ p, onEdit, onDelete, onVerAtend }) {
   const cc = CAT_COLORS[p.categoria] || CAT_COLORS["Médico"];
   return (
-    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"14px 16px",display:"flex",flexDirection:"column",gap:8}}>
+    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"18px 20px",display:"flex",flexDirection:"column",gap:12}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:38,height:38,borderRadius:"50%",background:cc.av.bg,color:cc.av.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:500,flexShrink:0}}>{initials(p.nome)}</div>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:42,height:42,borderRadius:"50%",background:cc.av.bg,color:cc.av.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:500,flexShrink:0}}>{initials(p.nome)}</div>
           <div>
-            <p style={{margin:0,fontWeight:500,fontSize:14}}>{p.nome}</p>
-            <p style={{margin:"2px 0 0",fontSize:12,color:"#6b7280"}}>{p.telefone}</p>
+            <p style={{margin:0,fontWeight:600,fontSize:15}}>{p.nome}</p>
+            <p style={{margin:"2px 0 0",fontSize:13,color:"#6b7280"}}>{p.telefone}</p>
           </div>
         </div>
         <Badge categoria={p.categoria} />
       </div>
-      {p.endereco && <p style={{margin:0,fontSize:12,color:"#9ca3af"}}>{p.endereco}</p>}
-      <div style={{display:"flex",gap:6,borderTop:"1px solid #f3f4f6",paddingTop:10}}>
-        <button onClick={() => onVerAtend(p)} style={btnStyle}>Atendimentos</button>
-        <button onClick={() => onEdit(p)} style={btnStyle}>Editar</button>
-        <button onClick={() => onDelete(p.id)} style={{...btnStyle,color:"#dc2626",borderColor:"#fca5a5"}}>Excluir</button>
+      {p.endereco && <p style={{margin:0,fontSize:13,color:"#9ca3af"}}>{p.endereco}</p>}
+      
+      <div style={{display:"flex",gap:8,borderTop:"1px solid #f3f4f6",paddingTop:14,marginTop:2}}>
+        <button onClick={() => onVerAtend(p)} style={{...btnStyle, flex:1, background:"#EFF6FF", color:"#1D4ED8", borderColor:"#BFDBFE", fontWeight:500}}>Atendimentos</button>
+        <button onClick={() => onEdit(p)} style={{...btnStyle, background:"#F3F4F6", color:"#374151", borderColor:"#D1D5DB"}}>Editar</button>
+        <button onClick={() => onDelete(p.id)} style={{...btnStyle, color:"#dc2626", borderColor:"#FECACA", background:"#FEF2F2"}}>Excluir</button>
       </div>
     </div>
   );
 }
 
 function AtendCard({ a, profissionais, onEdit, onDelete }) {
-  const profId = a.profissional?.id || a.profissionalId;
+  const profId = a.profissionalId || a.profissional?.id || a.profissionalDeSaude?.id || a.profissional_de_saude?.id;
   const prof = profissionais.find(p => String(p.id) === String(profId));
   
   return (
-    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"14px 16px"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
-        <div>
-          <p style={{margin:0,fontWeight:500,fontSize:14}}>{a.data} às {a.horario}</p>
-          {prof && <p style={{margin:"2px 0 0",fontSize:12,color:"#6b7280"}}>{prof.nome}</p>}
+    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"18px 20px",display:"flex",flexDirection:"column",gap:14}}>
+      
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:42,height:42,borderRadius:10,background:"#F3F4F6",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>
+            📅
+          </div>
+          <div>
+            <p style={{margin:0,fontWeight:600,fontSize:15,color:"#111827"}}>{a.data}</p>
+            <p style={{margin:"2px 0 0",fontSize:13,color:"#6b7280"}}>às {a.horario}</p>
+          </div>
         </div>
         {prof && <Badge categoria={prof.categoria} />}
       </div>
-      <p style={{margin:"0 0 10px",fontSize:13,color:"#6b7280",lineHeight:1.5}}>{a.problema_texto}</p>
-      <div style={{display:"flex",gap:6,borderTop:"1px solid #f3f4f6",paddingTop:10}}>
-        <button onClick={() => onEdit(a)} style={btnStyle}>Editar</button>
-        <button onClick={() => onDelete(a.id)} style={{...btnStyle,color:"#dc2626",borderColor:"#fca5a5"}}>Excluir</button>
+
+      <div style={{background:"#F9FAFB",borderRadius:8,padding:"10px 12px",border:"1px solid #F3F4F6",display:"flex",alignItems:"center",gap:8}}>
+        <span style={{fontSize:16}}>🧑‍⚕️</span>
+        {prof ? (
+          <span style={{fontSize:13,color:"#374151",fontWeight:500}}>{prof.nome}</span>
+        ) : (
+          <span style={{fontSize:13,color:"#9ca3af",fontStyle:"italic"}}>Profissional não vinculado</span>
+        )}
       </div>
+
+      <div style={{flex:1}}>
+        <p style={{margin:0,fontSize:11,color:"#9ca3af",textTransform:"uppercase",letterSpacing:"0.05em",fontWeight:600}}>Motivo da Consulta</p>
+        <p style={{margin:"4px 0 0",fontSize:13,color:"#4b5563",lineHeight:1.5}}>
+          {a.problemaTexto ? a.problemaTexto : <span style={{fontStyle:"italic",color:"#d1d5db"}}>Sem relato cadastrado.</span>}
+        </p>
+      </div>
+
+      <div style={{display:"flex",gap:8,borderTop:"1px solid #f3f4f6",paddingTop:14,marginTop:2}}>
+        <button onClick={() => onEdit(a)} style={{...btnStyle, flex:1, background:"#F3F4F6", color:"#374151", borderColor:"#D1D5DB", fontWeight:500}}>Editar</button>
+        <button onClick={() => onDelete(a.id)} style={{...btnStyle, flex:1, color:"#dc2626", borderColor:"#FECACA", background:"#FEF2F2", fontWeight:500}}>Excluir</button>
+      </div>
+      
     </div>
   );
 }
 
 function ExameCard({ exame, atendimentos, onEdit, onDelete }) {
-  const atend = atendimentos.find(a => String(a.id) === String(exame.atendimento?.id));
+  const atendId = exame.atendimento?.id || exame.atendimentoId;
+  const atend = atendimentos.find(a => String(a.id) === String(atendId));
   
   return (
-    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"14px 16px"}}>
-      <div style={{marginBottom:10}}>
-        <p style={{margin:0,fontWeight:500,fontSize:14,color:"#111827"}}>{exame.descricao}</p>
+    <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"18px 20px",display:"flex",flexDirection:"column",gap:14}}>
+      
+      <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+        <div style={{width:42,height:42,borderRadius:10,background:"#F5F3FF",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>
+          🔬
+        </div>
+        <div>
+          <p style={{margin:0,fontSize:11,color:"#9ca3af",textTransform:"uppercase",letterSpacing:"0.05em",fontWeight:600}}>Exame Laboratorial</p>
+          <p style={{margin:"2px 0 0",fontWeight:600,fontSize:16,color:"#111827"}}>{exame.descricao}</p>
+        </div>
+      </div>
+
+      <div style={{background:"#F9FAFB",borderRadius:8,padding:"10px 12px",border:"1px solid #F3F4F6",display:"flex",alignItems:"center",gap:10}}>
+        <span style={{fontSize:16}}>📅</span>
         {atend ? (
-          <p style={{margin:"4px 0 0",fontSize:12,color:"#6b7280"}}>
-            Vinculado ao atendimento de {atend.data} às {atend.horario}
-          </p>
+          <div style={{display:"flex",flexDirection:"column"}}>
+            <span style={{fontSize:11,color:"#6b7280",fontWeight:500}}>Vinculado ao atendimento:</span>
+            <span style={{fontSize:13,color:"#374151",fontWeight:500}}>{atend.data} às {atend.horario}</span>
+          </div>
         ) : (
-          <p style={{margin:"4px 0 0",fontSize:12,color:"#9ca3af",fontStyle:"italic"}}>Sem atendimento vinculado</p>
+          <span style={{fontSize:13,color:"#9ca3af",fontStyle:"italic"}}>Sem atendimento vinculado</span>
         )}
       </div>
-      <div style={{display:"flex",gap:6,borderTop:"1px solid #f3f4f6",paddingTop:10}}>
-        <button onClick={() => onEdit(exame)} style={btnStyle}>Editar</button>
-        <button onClick={() => onDelete(exame.id)} style={{...btnStyle,color:"#dc2626",borderColor:"#fca5a5"}}>Excluir</button>
+
+      <div style={{display:"flex",gap:8,borderTop:"1px solid #f3f4f6",paddingTop:14,marginTop:2}}>
+        <button onClick={() => onEdit(exame)} style={{...btnStyle, flex:1, background:"#F3F4F6", color:"#374151", borderColor:"#D1D5DB", fontWeight:500}}>Editar</button>
+        <button onClick={() => onDelete(exame.id)} style={{...btnStyle, flex:1, color:"#dc2626", borderColor:"#FECACA", background:"#FEF2F2", fontWeight:500}}>Excluir</button>
       </div>
+      
     </div>
   );
 }
@@ -178,7 +217,7 @@ export default function App() {
         const p = profissionais.find(x => String(x.id) === String(pId));
         return a.problema_texto?.toLowerCase().includes(filtro.toLowerCase()) || p?.nome?.toLowerCase().includes(filtro.toLowerCase());
       });
-      
+
   const stats = [
     {label:"Profissionais",   val:profissionais.length},
     {label:"Médicos",         val:profissionais.filter(p=>p.categoria==="MEDICO").length},
