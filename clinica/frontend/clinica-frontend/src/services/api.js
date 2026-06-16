@@ -1,4 +1,4 @@
-const BASE = "http://localhost:8080/api"; 
+const BASE = "https://trabalho-engenharia-software-ii.onrender.com"; 
 
 export async function request(method, path, body) {
   const res = await fetch(`${BASE}${path}`, {
