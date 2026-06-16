@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 1. Banco de Dados
   db:
@@ -9,22 +7,31 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: clinica_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clinica_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # 2. Backend (Java)
   backend:
     build: 
       context: ./backend
+    restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/clinica_db
-      - SPRING_DATASOURCE_USERNAME=clinica_user
-      - SPRING_DATASOURCE_PASSWORD=clinica_password
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   # 3. Frontend (React)
