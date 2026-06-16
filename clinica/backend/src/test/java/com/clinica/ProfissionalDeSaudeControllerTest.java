@@ -45,7 +45,7 @@ class ProfissionalDeSaudeControllerTest {
         ProfissionalDeSaude prof = new ProfissionalDeSaude();
         prof.setId(1L);
         prof.setNome("Carlos Machado");
-        prof.setCategoria("MEDICO");
+        prof.setCategoria(ProfissionalDeSaude.Categoria.MEDICO);
         prof.setTelefone("31998547564");
 
         when(repository.save(any(ProfissionalDeSaude.class))).thenReturn(prof);
