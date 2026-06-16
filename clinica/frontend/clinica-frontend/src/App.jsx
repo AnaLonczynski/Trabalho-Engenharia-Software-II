@@ -66,7 +66,9 @@ function ProfCard({ p, onEdit, onDelete, onVerAtend }) {
 }
 
 function AtendCard({ a, profissionais, onEdit, onDelete }) {
-  const prof = profissionais.find(p => String(p.id) === String(a.profissionalId));
+  const profId = a.profissional?.id || a.profissionalId;
+  const prof = profissionais.find(p => String(p.id) === String(profId));
+  
   return (
     <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:"14px 16px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
@@ -164,14 +166,19 @@ export default function App() {
     (!filtro || p.nome?.toLowerCase().includes(filtro.toLowerCase())) &&
     (!filtroCat || p.categoria === filtroCat)
   );
+  const getProfId = (a) => {
+    return a.profissionalId || a.profissional?.id || a.profissionalDeSaude?.id || a.profissional_de_saude?.id;
+  };
+
   const atendFiltrados = profFocus
-    ? atendimentos.filter(a => String(a.profissionalId) === String(profFocus.id))
+    ? atendimentos.filter(a => String(getProfId(a)) === String(profFocus.id))
     : atendimentos.filter(a => {
         if(!filtro) return true;
-        const p = profissionais.find(x => String(x.id) === String(a.profissionalId));
+        const pId = getProfId(a);
+        const p = profissionais.find(x => String(x.id) === String(pId));
         return a.problema_texto?.toLowerCase().includes(filtro.toLowerCase()) || p?.nome?.toLowerCase().includes(filtro.toLowerCase());
       });
-
+      
   const stats = [
     {label:"Profissionais",   val:profissionais.length},
     {label:"Médicos",         val:profissionais.filter(p=>p.categoria==="MEDICO").length},
