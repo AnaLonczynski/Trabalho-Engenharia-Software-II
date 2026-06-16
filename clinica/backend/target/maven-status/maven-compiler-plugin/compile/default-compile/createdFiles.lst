@@ -1,8 +1,12 @@
+com/clinica/model/ProfissionalDeSaude.class
+com/clinica/model/ProfissionalDeSaude$Categoria.class
+com/clinica/repository/AtendimentoRepository.class
+com/clinica/model/Atendimento$ReceitaSaude.class
 com/clinica/repository/ExameLabRepository.class
+com/clinica/repository/ProfissionalDeSaudeRepository.class
 com/clinica/model/ExameLab.class
 com/clinica/controller/AtendimentoController.class
 com/clinica/model/Atendimento.class
 com/clinica/controller/ExameLabController.class
-com/clinica/repository/AtendimentoRepository.class
-com/clinica/model/Atendimento$ReceitaSaude.class
+com/clinica/controller/ProfissionalDeSaudeController.class
 com/clinica/ClinicaApplication.class

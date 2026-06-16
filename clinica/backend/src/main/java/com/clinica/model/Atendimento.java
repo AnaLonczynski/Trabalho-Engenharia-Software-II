@@ -24,9 +24,9 @@ public class Atendimento {
     @Enumerated(EnumType.STRING)
     private ReceitaSaude receitaSaude;
 
-    //@ManyToOne
-    //@JoinColumn(name = "profissional_id")
-   // private ProfissionalDeSaude profissionalDeSaude;
+    @ManyToOne
+    @JoinColumn(name = "profissional_id")
+    private ProfissionalDeSaude profissionalDeSaude;
 
     public enum ReceitaSaude {
         REMEDIO,

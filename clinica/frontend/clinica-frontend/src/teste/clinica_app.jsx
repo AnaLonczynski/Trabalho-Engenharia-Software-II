@@ -208,31 +208,18 @@ export default function App() {
   const [profFocus, setProfFocus] = useState(null);
   const [erro, setErro] = useState("");
 
-  const fetchProfissionais = async () => {
-    try {
-      const response = await profissionalService.listar();
-      setProfissionais(response.data); // O Axios já coloca o JSON em response.data
-    } catch (error) {
-      console.error("Erro ao listar profissionais:", error);
-      setProfissionais([]);
-    }
-  };
-
+  const fetchProfissionais = async () => { try { const r = await fetch(`${API_BASE}/profissionais`); if(r.ok) setProfissionais(await r.json()); } catch { setProfissionais([]); } };
   const fetchAtendimentos  = async () => { try { const r = await fetch(`${API_BASE}/atendimentos`);  if(r.ok) setAtendimentos(await r.json());  } catch { setAtendimentos([]);  } };
   useEffect(() => { fetchProfissionais(); fetchAtendimentos(); }, []);
 
   const saveProfissional = async (form) => {
     try {
-      if (form.id) {
-        await profissionalService.atualizar(form.id, form);
-      } else {
-        await profissionalService.criar(form);
-      }
-      await fetchProfissionais(); // Atualiza a lista após salvar
-      setModal(null);
-    } catch (error) {
-      setErro("Erro ao salvar profissional.");
-    }
+      const method = form.id?"PUT":"POST";
+      const url = form.id?`${API_BASE}/profissionais/${form.id}`:`${API_BASE}/profissionais`;
+      const r = await fetch(url,{method,headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
+      if(!r.ok) throw new Error();
+      await fetchProfissionais(); setModal(null);
+    } catch { setErro("Erro ao salvar profissional."); }
   };
   const deleteProfissional = async (id) => {
     if(!confirm("Excluir profissional?")) return;
