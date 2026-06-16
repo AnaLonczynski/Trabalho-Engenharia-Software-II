@@ -34,7 +34,7 @@ class IntegracaoTest {
         ProfissionalDeSaude profissional = new ProfissionalDeSaude();
         profissional.setNome("Carlos Machado");
         profissional.setTelefone("31998547564");
-        profissional.setCategoria("MEDICO");
+        profissional.setCategoria(ProfissionalDeSaude.Categoria.MEDICO);
         profissional.setEndereco("Rua Dom Cabral, 21");
 
         MvcResult result = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/profissional_de_saude")
@@ -68,7 +68,7 @@ class IntegracaoTest {
     void deveVincularAtendimentoAProfissional() throws Exception {
         ProfissionalDeSaude profissional = new ProfissionalDeSaude();
         profissional.setNome("Maria Rodrigues");
-        profissional.setCategoria("FISIOTERAPEUTA");
+        profissional.setCategoria(ProfissionalDeSaude.Categoria.FISIOTERAPEUTA);
 
         MvcResult profResult = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/profissional_de_saude")
                 .contentType(MediaType.APPLICATION_JSON)
