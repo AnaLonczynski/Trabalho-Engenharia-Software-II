@@ -1,0 +1,50 @@
+name: CI Pipeline - Sistema de Saúde
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # Job 1: Testar o Backend (Java)
+  test-backend:
+    name: Testar Backend (Spring Boot)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Configurar Java 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17' 
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Rodar Testes Unitários e de Integração
+  
+      run: mvn test -f ../../backend/pom.xml
+
+  # Job 2: Verificar o Frontend (React)
+  build-frontend:
+    name: Verificar Build do Frontend (Vite)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js 22
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: ../../frontend/clinica-frontend/package-lock.json
+
+    - name: Instalar dependências e buildar
+      working-directory: ../../frontend/clinica-frontend
+      run: |
+        npm ci
+        npm run build
